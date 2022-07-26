@@ -1,2 +1,6 @@
 .docker
 .idea
+vendor
+docker
+docker-compose.yml
+Dockerfile

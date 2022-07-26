@@ -1,0 +1,20 @@
+{
+    "name": "caiowebdev/digital-cep",
+    "description": "Busca de cep online",
+    "license": "MIT",
+    "autoload": {
+        "psr-0": {
+            "Search": "src/"
+        },
+        "psr-4": {
+            "Caiowebdev\\DigitalCep\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Caio Web Dev",
+            "email": "caio@caiowebdev.com.br"
+        }
+    ],
+    "require": {}
+}
