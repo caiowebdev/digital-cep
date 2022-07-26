@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+    #custom image
+    app:
+        build:
+            args:
+                user: caio
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        image: caiomnavas/php-avancado
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www/
+        restart: unless-stopped
+        depends_on:
+            - redis
+            - queue
+        networks:
+            - php-avancado
+
+    #nginx
+    nginx:
+        image: nginx:alpine
+        restart: always
+        ports:
+            - 80:80
+        volumes:
+            - ./:/var/www/
+            - ./docker/nginx/:/etc/nginx/conf.d/
+        networks:
+            - php-avancado
+
+    #redis
+    redis:
+        image: redis:latest
+        networks:
+            - php-avancado
+
+    #queue
+    queue:
+        build:
+            args:
+                user: caio
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        image: caiomnavas/php-avancado
+        restart: always
+        command: "php artisan queue:work"
+        volumes:
+            - ./:/var/www/
+        depends_on:
+            - redis
+        networks:
+            - php-avancado
+
+    #mysql
+    mysql:
+        container_name: php-avancado-mysql
+        image: mysql:5.7.22
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: php_avancado
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_PASSWORD: root
+            MYSQL_USER: root
+        volumes:
+            - ./.docker/mysql/dbdata:/var/lib/mysql
+        ports:
+            - "3306:3306"
+        networks:
+            - php-avancado
+
+
+networks:
+    php-avancado:
+        driver: bridge
