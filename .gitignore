@@ -4,3 +4,6 @@ vendor
 /docker/*
 docker-compose.yml
 Dockerfile
+tests
+*-tests.txt
+_report
