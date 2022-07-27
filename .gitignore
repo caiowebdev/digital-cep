@@ -1,7 +1,7 @@
 .docker
 .idea
 vendor
-/docker/*
+docker/*
 docker-compose.yml
 Dockerfile
 tests
